@@ -14,9 +14,8 @@ public class PrimaryKeyDemo {
         try (SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
-                .buildSessionFactory()) {
-            Session session = sessionFactory.getCurrentSession();
-
+                .buildSessionFactory();
+             Session session = sessionFactory.getCurrentSession()) {
             try {
                 System.out.println("Creating 3 Student objects...");
                 String theDateOfBirthStr = "31/12/1998";
@@ -30,9 +29,10 @@ public class PrimaryKeyDemo {
                 session.save(student2);
                 session.save(student3);
                 session.getTransaction().commit();
+
                 System.out.println("Done!");
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                ex.printStackTrace();
             }
         }
     }

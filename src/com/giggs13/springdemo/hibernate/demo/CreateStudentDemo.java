@@ -14,9 +14,8 @@ public class CreateStudentDemo {
         try (SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
-                .buildSessionFactory()) {
-            Session session = sessionFactory.getCurrentSession();
-
+                .buildSessionFactory();
+             Session session = sessionFactory.getCurrentSession()) {
             System.out.println("Creating a new Student object...");
             String theDateOfBirthStr = "31/12/1998";
             Date dateOfBirth = DateUtils.parseDate(theDateOfBirthStr);
@@ -25,9 +24,10 @@ public class CreateStudentDemo {
             System.out.println("Saving the Student object...");
             session.save(student);
             session.getTransaction().commit();
+
             System.out.println("Done!");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

@@ -13,9 +13,8 @@ public class QueryStudentDemo {
         try (SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
-                .buildSessionFactory()) {
-            Session session = sessionFactory.getCurrentSession();
-
+                .buildSessionFactory();
+             Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
             List<Student> students = session.createQuery("from Student").getResultList();
@@ -32,6 +31,8 @@ public class QueryStudentDemo {
 
             session.getTransaction().commit();
             System.out.println("Done!");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

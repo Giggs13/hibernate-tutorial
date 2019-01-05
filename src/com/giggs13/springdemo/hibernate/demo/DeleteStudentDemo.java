@@ -13,8 +13,8 @@ public class DeleteStudentDemo {
         try (SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
-                .buildSessionFactory()) {
-            Session session = sessionFactory.getCurrentSession();
+                .buildSessionFactory();
+             Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
             int studentId = 2;
@@ -33,6 +33,8 @@ public class DeleteStudentDemo {
             session.getTransaction().commit();
 
             System.out.println("Done!");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

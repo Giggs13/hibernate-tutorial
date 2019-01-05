@@ -12,23 +12,27 @@ public class UpdateStudentDemo {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
                 .buildSessionFactory()) {
-            Session session = sessionFactory.getCurrentSession();
-            session.beginTransaction();
+            try (Session session = sessionFactory.getCurrentSession()) {
+                session.beginTransaction();
 
-            int studentId = 7;
-            Student myStudent = session.get(Student.class, studentId);
-            System.out.println("Get complete: " + myStudent);
-            System.out.println("Updating student...");
-            myStudent.setFirstName("Scooby");
-            session.getTransaction().commit();
+                int studentId = 7;
+                Student myStudent = session.get(Student.class, studentId);
+                System.out.println("Get complete: " + myStudent);
+                System.out.println("Updating student...");
+                myStudent.setFirstName("Scooby");
+                session.getTransaction().commit();
+            }
 
-            System.out.println("Updating all the students...");
-            session = sessionFactory.getCurrentSession();
-            session.beginTransaction();
-            session.createQuery("update Student set email = 'foo@gmail.com'").executeUpdate();
-            session.getTransaction().commit();
+            try (Session session = sessionFactory.getCurrentSession()) {
+                System.out.println("Updating all the students...");
+                session.beginTransaction();
+                session.createQuery("update Student set email = 'foo@gmail.com'").executeUpdate();
+                session.getTransaction().commit();
 
-            System.out.println("Done!");
+                System.out.println("Done!");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
